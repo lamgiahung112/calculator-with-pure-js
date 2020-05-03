@@ -4,6 +4,7 @@ class Calculator {
         this.currentOperandTextElement = currentOperandTextElement
         this.currentOperand = ''
         this.previousOperand = ''
+        this.readyToReset = false
     }
 
     clear() {
@@ -52,6 +53,7 @@ class Calculator {
             default:
                 return
         }
+        this.readyToReset = true
         this.currentOperand = computation
         this.operation = undefined
         this.previousOperand = ""
@@ -101,6 +103,10 @@ const calculator = new Calculator(previousOperandTextElement, currentOperandText
 
 numberBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+        if (calculator.readyToReset === true && calculator.previousOperand == '' && calculator.currentOperand != '') {
+            calculator.currentOperand = ''
+            calculator.readyToReset = false
+        }
         calculator.appendNumber(btn.innerText)
         calculator.updateDisplay()
     })
